@@ -9,6 +9,26 @@
     <img src="https://img.shields.io/github/license/Kludex/no-route">
 </p>
 
+Yet another opinionated formatter. Turns `@app.route(..., methods=[<method>])` into `@app.<method>(...)`.
+
+Works with `Flask` and `FastAPI`.
+
+Example:
+
+```python
+@app.route("/", methods=["GET"])
+def home():
+  ...
+```
+
+Into:
+
+```python
+@app.get("/")
+def home():
+  ...
+```
+
 ## Installation
 
 ```bash
