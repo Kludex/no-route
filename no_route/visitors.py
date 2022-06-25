@@ -2,6 +2,7 @@ from typing import List, Optional, cast
 
 import libcst as cst
 import libcst.matchers as m
+from libcst.codemod import VisitorBasedCodemodCommand
 
 
 class RouteDecoratorVisitor(m.MatcherDecoratableVisitor):
@@ -22,7 +23,7 @@ class RouteDecoratorVisitor(m.MatcherDecoratableVisitor):
             print("Use the new style to write endpoint functions.")
 
 
-class RouteDecoratorTransformer(m.MatcherDecoratableTransformer):
+class RouteDecoratorCommand(VisitorBasedCodemodCommand):
     @m.leave(
         m.Decorator(
             m.Call(
@@ -117,12 +118,3 @@ async def another(request: Request):
     else:
         print("This is a POST!")
 """
-
-
-def apply_transformer(source: str) -> str:
-    module = cst.parse_module(source)
-    new_module = module.visit(RouteDecoratorTransformer())
-    return new_module.code
-
-
-print(apply_transformer(source_multiple_methods))
